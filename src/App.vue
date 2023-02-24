@@ -1,26 +1,41 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import NavBar from "./components/NavBar.vue";
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    NavBar,
+  },
+  // computed: {
+  //   layoutComponent() {
+  //     console.log("xxxxxx", this.$route);
+  //     const layout = this.$route.meta.layout
+  //       ? this.$route.meta.layout
+  //       : "DefaultLayout";
+
+  //     // Load the component dynamically using import()
+  //     try {
+  //       const component = import(`./layouts/${layout}.vue`);
+  //       return component;
+  //     } catch (error) {
+  //       console.error(error);
+  //       return null;
+  //     }
+  //   },
+  // },
+};
 </script>
 
-<style>
+<style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: "Montserrat", sans-serif;
 }
 </style>

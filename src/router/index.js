@@ -7,6 +7,8 @@ import Ingredients from '../views/Ingredients.vue'
 //import Login from '../views/Login.vue'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
 import LoginLayout from '../layouts/LoginLayout.vue'
+import LoginVue from "../views/Login.vue";
+import { auth } from '../firebase'
 
 const routes=[
    {
@@ -21,28 +23,47 @@ const routes=[
         {
           path: '/meals/:name?',
           name: 'mealsByName',
-          component: MealsByName
+          component: MealsByName,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/ingredients',
           name: 'ingredients',
-          component: Ingredients
+          component: Ingredients,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/meals-by-ingredient/:ingredient?',
           name: 'mealsByIngredient',
-          component: MealsByIngredient
+          component: MealsByIngredient,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
             path: '/meals/:id',
             name: 'mealDetails',
-            component: MealDetails
-          },
-       ]
+            component: MealDetails,
+            meta: {
+              requiresAuth: true
+            }
+        },
+      ]
    },
    {
-    path: '/login',
-    component: LoginLayout
+      path: '/login',
+      component: LoginLayout,
+      children: [
+        {
+            path: '/login',
+            name: 'login',
+            component: LoginVue
+        }
+      ]
    }
     // {
     //     path: '/login',
@@ -54,6 +75,20 @@ const routes=[
 const router = createRouter({
     history: createWebHistory(),
     routes,
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login' && auth.currentUser) {
+    next('/')
+    return;
+  }
+
+  if (to.matched.some(record => record.meta.requiresAuth) && !auth.currentUser) {
+    next('/login')
+    return;
+  }
+
+  next();
 })
 
 export default router;

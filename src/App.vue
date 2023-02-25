@@ -27,6 +27,12 @@ export default {
   //     }
   //   },
   // },
+  // created() {
+  //   this.$store.dispatch("fetchUser");
+  // },
+  // created() {
+  //   this.$store.dispatch("fetchUser");
+  // },
 };
 </script>
 

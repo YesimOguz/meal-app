@@ -83,7 +83,7 @@ h1 {
     h3 {
       font-size: 1rem;
       //margin-bottom: 5px;
-      color: rgb(247, 243, 246);
+      color: #f7f3f6;
     }
   }
 }

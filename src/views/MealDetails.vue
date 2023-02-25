@@ -150,12 +150,12 @@ export default {
     align-items: center;
 
     .youtube-icon {
-      color: rgb(233, 10, 10);
+      color: #e90a0a;
       margin: 0 10px;
       font-size: 32px;
     }
     .source-icon {
-      color: rgb(3, 3, 3);
+      color: #030303;
       margin: 0 10px;
       font-size: 32px;
     }

@@ -1,3 +1,3 @@
-<template>LOGIN PAGE</template>
+<template><router-view></router-view></template>
 
 <script></script>

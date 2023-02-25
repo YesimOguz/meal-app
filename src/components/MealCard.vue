@@ -127,7 +127,7 @@ export default {
     color: #333;
   }
   .youtube-icon {
-    color: rgb(233, 10, 10);
+    color: #E90A0A;
     //font-size: 2rem;
     //padding: 20px;
   }

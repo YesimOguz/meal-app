@@ -56,7 +56,6 @@ export default {
       meal: {},
       ingredients: [],
       measures: [],
-      //ingredientsWithMeasures: {},
     };
   },
   created() {
@@ -216,11 +215,4 @@ export default {
     }
   }
 }
-
-// .youtube-icon {
-//   color: rgb(233, 10, 10);
-// }
-// .source-icon {
-//   color: rgb(3, 3, 3);
-// }
 </style>

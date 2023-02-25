@@ -82,7 +82,6 @@ h1 {
 
     h3 {
       font-size: 1rem;
-      //margin-bottom: 5px;
       color: #f7f3f6;
     }
   }

@@ -4,14 +4,13 @@ import MealsByName from '../views/MealsByName.vue'
 import MealsByIngredient from '../views/MealsByIngredient.vue'
 import MealDetails from '../views/MealDetails.vue'
 import Ingredients from '../views/Ingredients.vue'
-//import Login from '../views/Login.vue'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
 import LoginLayout from '../layouts/LoginLayout.vue'
 import LoginVue from "../views/Login.vue";
 import { auth } from '../firebase'
 
-const routes=[
-   {
+const routes = [
+  {
        path: '/',
        component: DefaultLayout,
        children: [
@@ -64,12 +63,7 @@ const routes=[
             component: LoginVue
         }
       ]
-   }
-    // {
-    //     path: '/login',
-    //     name: 'login',
-    //     component: Login,
-    // }
+  }
 ];
 
 const router = createRouter({

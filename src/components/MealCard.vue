@@ -11,9 +11,6 @@
       iconName="youtube"
       class="youtube-icon"
     />
-    <!-- <a :href="meal.strYoutube" target="_blank">
-      <FontAwesomeIcon :icon="['fab', 'youtube']" class="youtube-icon" />
-    </a> -->
   </div>
 </template>
 
@@ -37,68 +34,6 @@ export default {
 </script>
 
 <style lang="scss">
-// .meal-card {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   border-radius: 4px;
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//   overflow: hidden;
-//   margin: 20px;
-//   width: 400px;
-
-//   .img {
-//     width: 100%;
-//     height: 300px;
-//     object-fit: cover;
-//   }
-
-//   h3 {
-//     margin-top: 10px;
-//     font-size: 16px;
-//     color: #333;
-//     text-align: center;
-//     padding: 10px;
-//     width: 100%;
-//     box-sizing: border-box;
-//     white-space: nowrap;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//   }
-//}
-
-// .meal-card {
-//   box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px,
-//     rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-//   max-width: 200px;
-//   margin: 12px;
-//   transition: 0.15s all ease-in-out;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// }
-// .meal-card:hover {
-//   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-//   transform: scale(1.1);
-// }
-
-// .img {
-//   max-width: 100%;
-// }
-
-// .ellipsis {
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   white-space: nowrap;
-// }
-
-// @media only screen and (min-width: 768px) {
-//   .meal-card {
-//     max-width: 250px;
-//   }
-// }
-
 .meal-card {
   position: relative;
   background-color: #fff;
@@ -127,9 +62,7 @@ export default {
     color: #333;
   }
   .youtube-icon {
-    color: #E90A0A;
-    //font-size: 2rem;
-    //padding: 20px;
+    color: #e90a0a;
   }
 }
 </style>

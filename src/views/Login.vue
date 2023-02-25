@@ -51,45 +51,45 @@ export default {
     },
   },
 };
-
-// export default {
-//   setup() {
-//
-//     const login = () => {
-//       store.dispatch("login", login_form.value);
-//     };
-//     const register = () => {
-//       store.dispatch("register", register_form.value);
-//     };
-//     return {
-//       login_form,
-//       register_form,
-//       login,
-//       register,
-//     };
-//   },
-// };
 </script>
 
 <style lang="scss">
 .forms {
   display: flex;
   min-height: 100vh;
+  flex-direction: row;
+
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 }
+
 form {
   flex: 1 1 0%;
   padding: 8rem 1rem 1rem;
+
+  @media only screen and (max-width: 768px) {
+    padding: 2rem 1rem 1rem;
+    max-width: 100%;
+  }
 }
+
 form.register {
   color: #fff;
   background-color: #b38bbb;
   background-image: linear-gradient(to bottom right, #b38bbb 0%, #453c46 100%);
+
+  @media only screen and (max-width: 768px) {
+    max-width: none;
+  }
 }
+
 h2 {
   font-size: 2rem;
   text-transform: uppercase;
   margin-bottom: 2rem;
 }
+
 input {
   appearance: none;
   border: none;
@@ -102,25 +102,35 @@ input {
   font-size: 1.5rem;
   margin-bottom: 2rem;
   padding: 0.5rem 0rem;
+
+  @media only screen and (max-width: 768px) {
+    max-width: none;
+  }
 }
+
 input:not([type="submit"]) {
   opacity: 0.8;
   transition: 0.4s;
 }
+
 input:focus:not([type="submit"]) {
   opacity: 1;
 }
+
 input::placeholder {
   color: inherit;
 }
+
 form.register input:not([type="submit"]) {
   color: #fff;
   border-bottom: 2px solid #fff;
 }
+
 form.login input:not([type="submit"]) {
   color: #2c3e50;
   border-bottom: 2px solid #2c3e50;
 }
+
 form.login input[type="submit"] {
   background-color: #b38bbb;
   color: #fff;
@@ -130,6 +140,7 @@ form.login input[type="submit"] {
   cursor: pointer;
   text-transform: uppercase;
 }
+
 form.register input[type="submit"] {
   background-color: #fff;
   color: #965ea1;

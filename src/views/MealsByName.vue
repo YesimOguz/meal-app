@@ -12,9 +12,10 @@
 </template>
 
 <script>
-import axios from "axios";
-import baseURL from "../baseURL.js";
+// import axios from "axios";
+// import baseURL from "../baseURL.js";
 import Meals from "../components/Meals.vue";
+import { mapState } from "vuex";
 export default {
   components: {
     Meals,
@@ -22,20 +23,26 @@ export default {
   data() {
     return {
       input: "",
-      meals: [],
+      // meals: [],
     };
   },
-  mounted() {
-    this.input = this.$route.params.name;
-    if (this.input) {
-      this.searchMeals();
-    }
+  computed: {
+    ...mapState({
+      meals: (state) => state.Meal.searchedMeals,
+    }),
   },
+  // mounted() {
+  //   this.input = this.$route.params.name;
+  //   if (this.input) {
+  //     this.searchMeals();
+  //   }
+  // },
   methods: {
     searchMeals() {
-      axios.get(`${baseURL}search.php?s=${this.input}`).then((response) => {
-        this.meals = response.data.meals || [];
-      });
+      this.$store.dispatch("searchMealsByName", this.input);
+      // axios.get(`${baseURL}search.php?s=${this.input}`).then((response) => {
+      //   this.meals = response.data.meals || [];
+      // });
     },
   },
 };

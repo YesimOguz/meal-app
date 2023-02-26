@@ -3,29 +3,31 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import baseURL from "../baseURL.js";
 import Meals from "../components/Meals.vue";
+import { mapState } from "vuex";
 export default {
   components: { Meals },
-  data() {
-    return {
-      meals: [],
-    };
+  computed: {
+    ...mapState({
+      meals: (state) => state.Meal.randomMeals,
+    }),
   },
   created() {
     this.getRandomMeals();
   },
   methods: {
     getRandomMeals() {
-      axios
-        .get(`${baseURL}search.php?s`)
-        .then(
-          (response) =>
-            (this.meals = response.data.meals
-              .sort(() => 0.5 - Math.random())
-              .slice(0, 12))
-        );
+      this.$store.dispatch("getRandomMeals");
+      // axios
+      //   .get(`${baseURL}search.php?s`)
+      //   .then(
+      //     (response) =>
+      //       (this.meals = response.data.meals
+      //         .sort(() => 0.5 - Math.random())
+      //         .slice(0, 12))
+      //   );
     },
   },
 };

@@ -1,3 +1,5 @@
 export default {
-    meals: ["salmon"]
+    searchedMeals: [],
+    mealsByIngredient: [],
+    randomMeals: [],
 }

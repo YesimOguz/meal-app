@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "../store"
 import Home from '../views/Home.vue'
 import MealsByName from '../views/MealsByName.vue'
 import MealsByIngredient from '../views/MealsByIngredient.vue'
 import MealDetails from '../views/MealDetails.vue'
 import Ingredients from '../views/Ingredients.vue'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
-import LoginLayout from '../layouts/LoginLayout.vue'
-import LoginVue from "../views/Login.vue";
+import AuthLayout from '../layouts/AuthLayout.vue'
+import Login from "../views/Login.vue";
+import Signup from "../views/Signup.vue";
 import { auth } from '../firebase'
 
 const routes = [
@@ -20,7 +22,7 @@ const routes = [
           component: Home
         },
         {
-          path: '/meals/:name?',
+          path: '/meals',
           name: 'mealsByName',
           component: MealsByName,
           meta: {
@@ -55,15 +57,26 @@ const routes = [
    },
    {
       path: '/login',
-      component: LoginLayout,
+      component: AuthLayout,
       children: [
         {
             path: '/login',
             name: 'login',
-            component: LoginVue
+            component: Login
         }
       ]
-  }
+  },
+  {
+    path: '/signup',
+    component: AuthLayout,
+    children: [
+      {
+          path: '/signup',
+          name: 'signup',
+          component: Signup
+      }
+    ]
+}
 ];
 
 const router = createRouter({
@@ -71,18 +84,40 @@ const router = createRouter({
     routes,
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.path === '/login' && auth.currentUser) {
-    next('/')
-    return;
+router.beforeEach(async (to, from, next) => {
+  if (!store.state.Auth.isInitialized) {
+    return checkState().then(user => {
+      store.state.Auth.isInitialized = true
+      if (user === null) {
+        store.commit('CLEAR_USER')
+        next()
+      } else {
+        store.commit('SET_USER', user)
+        if (to.path === '/login') {
+          next('/')
+          return
+        }
+        next()
+      }
+    })
+  } else {
+    if (to.path === '/login' && auth.currentUser) {
+      next('/')
+      return
+    }
+  
+    if (to.matched.some(record => record.meta.requiresAuth) && !auth.currentUser) {
+      next('/login')
+      return
+    }
+  
+    next()
   }
 
-  if (to.matched.some(record => record.meta.requiresAuth) && !auth.currentUser) {
-    next('/login')
-    return;
-  }
-
-  next();
 })
+
+function checkState() {
+  return new Promise((resolve) => auth.onAuthStateChanged(resolve))
+}
 
 export default router;

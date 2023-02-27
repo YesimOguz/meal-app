@@ -22,10 +22,7 @@ export default {
     ...mapState({
       user: (state) => state.Auth.user,
     }),
-  },
-  beforeMount() {
-    this.$store.dispatch("fetchUser");
-  },
+  }
 };
 </script>
 

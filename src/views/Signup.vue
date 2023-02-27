@@ -1,20 +1,20 @@
 <template>
-  <main class="login">
+  <main class="reigster">
     <section class="forms">
-      <form class="login" @submit.prevent="login()">
-        <h2>Login</h2>
+      <form class="register" @submit.prevent="register()">
+        <h2>Signup</h2>
         <input
           type="email"
           placeholder="Email address"
-          v-model="loginForm.email"
+          v-model="registerForm.email"
         />
         <input
           type="password"
           placeholder="Password"
-          v-model="loginForm.password"
+          v-model="registerForm.password"
         />
-        <input type="submit" value="Login" />
-        <button class="signup" @click="$router.push('/signup')">Signup</button>
+        <input type="submit" value="Signup" />
+        <button class="login" @click="$router.push('/login')">Login</button>
       </form>
     </section>
   </main>
@@ -22,45 +22,53 @@
 
 <script>
 export default {
+  name: 'Signup',
   data() {
     return {
-      loginForm: {
-        username: null,
+      registerForm: {
+        email: null,
         password: null
       },
       isDisabled: false
+  
     };
   },
   methods: {
-    login() {
+    register() {
       if (!this.isDisabled) {
         this.isDisabled = true
-        this.$store.dispatch("login", this.loginForm)
+        this.$store.dispatch("register", this.registerForm)
           .then(() => {
             this.$notify({
-            type: "success",
-            text: "Login Success!"
+                type: "success",
+                text: "Signup Success!"
             })
             this.$router.push('/')
           })
           .catch(error => {
             switch(error.code) {
-              case 'auth/user-not-found':
-                this.$notify({ type: "error", text: "User not found" })
-                break
-              case 'auth/wrong-password':
-                this.$notify({ type: "error", text: "Wrong password" })
-                break
-              default:
-                this.$notify({ type: "error", text: "Something went wrong" })
-            }
+                case 'auth/email-already-in-use':
+                  this.$notify({ type: "error", text: "Email already in use" })
+                  break
+                case 'auth/invalid-email':
+                this.$notify({ type: "error", text: "Invalid email" })
+                  break
+                case 'auth/operation-not-allowed':
+                  this.$notify({ type: "error", text: "Operation not allowed" })
+                  break
+                case 'auth/weak-password':
+                  this.$notify({ type: "error", text: "Weak password" })
+                  break
+                default:
+                  this.$notify({ type: "error", text: "Something went wrong" })
+
+              }
           })
           .finally(() => {
             this.isDisabled = false
           })
       }
-
-    }
+    },
   },
 };
 </script>
@@ -83,6 +91,16 @@ form {
   @media only screen and (max-width: 768px) {
     padding: 2rem 1rem 1rem;
     max-width: 100%;
+  }
+}
+
+form.register {
+  color: #fff;
+  background-color: #b38bbb;
+  background-image: linear-gradient(to bottom right, #b38bbb 0%, #453c46 100%);
+
+  @media only screen and (max-width: 768px) {
+    max-width: none;
   }
 }
 
@@ -123,14 +141,14 @@ input::placeholder {
   color: inherit;
 }
 
-form.login input:not([type="submit"]) {
-  color: #2c3e50;
-  border-bottom: 2px solid #2c3e50;
+form.register input:not([type="submit"]) {
+  color: #fff;
+  border-bottom: 2px solid #fff;
 }
 
-form.login input[type="submit"] {
-  background-color: #b38bbb;
-  color: #fff;
+form.register input[type="submit"] {
+  background-color: #fff;
+  color: #965ea1;
   font-weight: 700;
   padding: 1rem 2rem;
   border-radius: 0.5rem;
@@ -138,9 +156,9 @@ form.login input[type="submit"] {
   text-transform: uppercase;
 }
 
-.signup {
-  background-color: #fff;
-  color: #965ea1;
+.login {
+  background-image: linear-gradient(to bottom right, #b38bbb 0%, #453c46 100%);
+  color: #fff;
   font-weight: 700;
   padding: 1rem 2rem;
   border-radius: 0.5rem;

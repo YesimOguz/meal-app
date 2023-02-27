@@ -1,5 +1,7 @@
 <template>
-  <div class="meal-details-card">
+  <Loader v-if="!isLoaded" />
+  <div v-else-if="!meal.strMeal">Not found!</div>
+  <div v-else class="meal-details-card">
     <img :src="meal.strMealThumb" :alt="meal.strMeal" class="img" />
     <div>
       <h1 class="title">{{ meal.strMeal }}</h1>
@@ -16,12 +18,13 @@
       <div class="title-and-list">
         <h2 class="subtitle">INGREDIENTS AND MEASURES</h2>
         <ul
-          v-for="([key, value], index) of Object.entries(
-            IngredientsWithMeasures
-          )"
+          v-for="(ingredientWithMeasure, index) of ingredientsWithMeasures"
           class="list"
         >
-          <li class="list-item">{{ index + 1 }}. {{ key }}: {{ value }}</li>
+          <li class="list-item">
+            {{ index + 1 }}. {{ ingredientWithMeasure.ingredient }}:
+            {{ ingredientWithMeasure.measure }}
+          </li>
         </ul>
       </div>
       <div class="icons">
@@ -45,45 +48,50 @@
 </template>
 
 <script>
-import axios from "axios";
-import baseURL from "../baseURL";
+import Loader from "../components/Loader.vue";
+import api from "../../api";
 import IconLink from "../components/IconLink.vue";
 
 export default {
-  components: { IconLink },
+  components: { IconLink, Loader },
   data() {
     return {
       meal: {},
-      ingredients: [],
-      measures: [],
+      ingredientsWithMeasures: [],
+      isLoaded: false,
+      error: null,
     };
   },
   created() {
     this.getMealDetails();
   },
-  computed: {
-    IngredientsWithMeasures() {
-      return Object.assign(
-        ...this.ingredients.map((k, i) => ({ [k]: this.measures[i] }))
-      );
-    },
-  },
   methods: {
     getMealDetails() {
-      axios
-        .get(`${baseURL}lookup.php?i=${this.$route.params.id}`)
+      api
+        .get(`lookup.php?i=${this.$route.params.id}`)
         .then((response) => {
-          this.meal = response.data.meals[0] || {};
+          this.meal = (response.data.meals && response.data.meals[0]) || {};
           for (let key in this.meal) {
-            if (this.meal[key]) {
+            const value = this.meal[key];
+            if (value) {
               if (key.includes("strIngredient")) {
-                this.ingredients.push(this.meal[key]);
-              }
-              if (key.includes("strMeasure")) {
-                this.measures.push(this.meal[key]);
+                const number = key.split("strIngredient")[1];
+                this.ingredientsWithMeasures.push({
+                  measure: this.meal[`strMeasure${number}`],
+                  ingredient: value,
+                });
               }
             }
           }
+        })
+        .catch(() => {
+          this.$notify({
+            type: "error",
+            text: "Something went wrong!",
+          });
+        })
+        .finally(() => {
+          this.isLoaded = true;
         });
     },
   },

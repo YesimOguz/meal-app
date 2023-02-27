@@ -20,8 +20,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import baseURL from "../baseURL";
+import api from "../../api";
 
 export default {
   data() {
@@ -34,8 +33,8 @@ export default {
   },
   methods: {
     getIngredients() {
-      axios
-        .get(`${baseURL}list.php?i=list`)
+      api
+        .get(`list.php?i=list`)
         .then((response) => (this.ingredients = response.data.meals || []));
     },
   },

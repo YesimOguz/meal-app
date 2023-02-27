@@ -4,7 +4,6 @@
       <MealCard :meal="meal" />
     </div>
   </div>
-  <div v-if="!meals.length">No meals found!</div>
 </template>
 
 <script>

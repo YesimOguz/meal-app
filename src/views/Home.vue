@@ -1,33 +1,45 @@
 <template>
-  <Meals :meals="meals" />
+  <Loader v-if="!isLoaded" />
+  <div v-else-if="!meals.length">No meals found!</div>
+  <Meals v-else :meals="meals" />
 </template>
 
 <script>
-// import axios from "axios";
-import baseURL from "../baseURL.js";
+import Loader from "../components/Loader.vue";
+import api from "../../api";
 import Meals from "../components/Meals.vue";
-import { mapState } from "vuex";
+
 export default {
-  components: { Meals },
-  computed: {
-    ...mapState({
-      meals: (state) => state.Meal.randomMeals,
-    }),
+  components: { Meals, Loader },
+  data() {
+    return {
+      meals: [],
+      isLoaded: false,
+    };
   },
-  created() {
+  mounted() {
     this.getRandomMeals();
   },
   methods: {
     getRandomMeals() {
-      this.$store.dispatch("getRandomMeals");
-      // axios
-      //   .get(`${baseURL}search.php?s`)
-      //   .then(
-      //     (response) =>
-      //       (this.meals = response.data.meals
-      //         .sort(() => 0.5 - Math.random())
-      //         .slice(0, 12))
-      //   );
+      api
+        .get("search.php?s")
+        .then((response) => {
+          if (response.data.meals) {
+            this.meals = response.data.meals
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 12);
+          }
+        })
+        .catch(() => {
+          this.$notify({
+            type: "error",
+            text: "Something went wrong!",
+          });
+        })
+        .finally(() => {
+          this.isLoaded = true;
+        });
     },
   },
 };

@@ -18,6 +18,12 @@ npm run serve
 npm run build
 ```
 
+### Unit test running
+
+```
+npm test <file path>
+```
+
 # Folder structure
 
 ## components
@@ -53,9 +59,8 @@ After defining the routes, the router is created using the createRouter function
 
 ## store
 
-index.js file inside of store folder contains the Vuex store configuration, which is used for managing this application's state.
-The modules folder within the store folder is used for organizing the store into smaller, more manageable pieces. Each module within the modules folder have its own state.js, mutations.js, actions.js, and index.js files. By breaking the store into smaller modules, it becomes easier to manage and scale this application's state in case it grows larger and more complex.
-The state.js file defines the initial state of the module, which is an object that contains the module's data. The mutations.js file contains functions that can modify the state of the module, and are responsible for updating the state in response to actions. The actions.js file defines the actions that is dispatched to the store, which can trigger mutations. The index.js file is used to export the module's state, mutations, actions.
+index.js file inside of store folder contains the Vuex store configuration, which is used for managing this application's state for authentication.The modules folder within the store folder is used for organizing the store into smaller, more manageable pieces.
+The state.js file within this module defines the initial state, which includes information about whether a user is logged in and user informations. The mutations.js file contains functions that can modify the state of the module, and are responsible for updating the state in response to actions. The actions.js file defines the actions (login(), register(), logout()) that is dispatched to the store, which can trigger mutations. The index.js file is used to export the module's state, mutations, actions.
 
 ## views
 
@@ -73,14 +78,13 @@ After that, the method loops through the meal object and extracts the ingredient
 
 MealsByIngredients: It displays meals based on a given ingredient. It uses the Loader component to display a loading animation while the meals are being fetched from the API. Once the meals are loaded, it checks if there are any meals available and displays a message if there are none. If there are meals available, it displays the Meals component and passes the meals data to it as a prop.
 The component has a data object with two properties: meals and isLoaded. The meals property is an array that holds the meal data that is fetched from the API. The isLoaded property is a boolean that is used to determine whether the meals have finished loading or not.
-The component has a mounted lifecycle hook that calls the getMealsByIngredients method. This method sends a GET request to the API with the ingredient parameter from the route. If the request is successful, the meals data is saved to the meals property. If the request fails, an error notification is displayed. 
+The component has a mounted lifecycle hook that calls the getMealsByIngredients method. This method sends a GET request to the API with the ingredient parameter from the route. If the request is successful, the meals data is saved to the meals property. If the request fails, an error notification is displayed.
 
 MealsByName.vue: This component provides a search bar for searching meals using the MealDB API.
 It consists of an input element that binds to the search property using Vue binding (v-model). The watch hook is used to detect changes to the search property and initiate a search for meals with a one-second delay using a setTimeout function.
 When the user types in the search bar, the component sends an HTTP request to the API with the search query using the axios library. The API's response is stored in the meals array and rendered using the Meals component.
 
 Signup.vue: It creates a signup form with an email input, password input, and submit button. When the user submits the form, the register() method is called, which dispatches an action to register the user using the Vuex store. If the registration is successful, a success notification is shown and the user is redirected to the home page. If there is an error, an error notification is shown with a message based on the error code returned by Firebase. There is also a login button that redirects the user to the login page.
-
 
 ## App.vue
 
@@ -90,13 +94,14 @@ It contains a notifications component for displaying notifications and a router-
 
 This file imports necessary packages and creates a Vue app with the root component App.vue. It also adds the necessary configuration for router and store. Additionally, it registers the FontAwesomeIcon component from the @fortawesome/vue-fontawesome package and adds the specified fab and fas icons to the fontawesome icon library. Also it configures this app to use the Notifications plugin. It mounts the root component to the app by calling the mount() method with the selector #app.
 
-
 ## tests/views
 
-MealsByName.spec.js: 
+MealDetail.spec.js: This test is checking whether the MealDetails component is calling the api.get method with the correct argument when it is mounted.
+The response object simulates the response from the API endpoint being tested. This object contains an array of meal objects that represent the data returned from the API.
+The jest.mock function is used to mock the api module, replacing its get method with a mock function that returns a resolved Promise with the mocked response. This ensures that the test is not actually making real HTTP requests, but instead returns the mocked data.
 
-
-
+MealsByName.spec.js: The first test case checks that the component emits the correct search value when the user types in the search input. It sets the value of the search input to "pizza" and asserts that the search data property of the component has been updated with this value.
+The second test case checks that the component displays the correct meals when there are matching results from the API. It creates a mock response object containing an array of meal objects and mocks the api.get method to return this response when called. It then sets the search data property to "meal" and asserts that the Meals component exists. It uses setTimeout to wait for the API request to complete before checking that the meals data property contains the correct number of items and name.
 
 ## api.js
 

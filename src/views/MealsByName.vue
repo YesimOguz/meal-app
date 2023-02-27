@@ -32,6 +32,9 @@ export default {
     };
   },
   watch: {
+    // This function sets a timer to delay searching for meals until the user stops typing in the search bar.
+    // Then calls the searchMeals() function.
+    // If the search bar is empty, it immediately calls the searchMeals() function.
     search() {
       clearTimeout(this.searchTimer);
       if (this.search) {
@@ -49,6 +52,9 @@ export default {
     }
   },
   methods: {
+    // This method sets a flag, triggers an API request to search for meals based on the provided search.
+    // It handles the response by updating the meals array or showing an error notification.
+    // It sets a flag indicating that the loading has finished.
     searchMeals() {
       this.isSearchTriggered = true;
       this.isLoaded = false;

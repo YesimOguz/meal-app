@@ -43,11 +43,11 @@ export default {
       }
     },
   },
-  // mounted() {
-  //   if (this.$route.query.name) {
-  //     this.search = this.$route.query.name;
-  //   }
-  // },
+  mounted() {
+    if (this.$route.query.name) {
+      this.search = this.$route.query.name;
+    }
+  },
   methods: {
     searchMeals() {
       this.isSearchTriggered = true;
